@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Animasi Lilin</title>
+  <style>
+    body {
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .candle-holder {
+      position: relative;
+      width: 80px;
+      height: 200px;
+    }
+    .candle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 120px;
+      background: linear-gradient(to top, #e3c284 80%, #fffbe8 100%);
+      border-radius: 18px 18px 10px 10px;
+      box-shadow: 0 4px 24px 2px #0004;
+      z-index: 2;
+    }
+    .wick {
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      width: 4px;
+      height: 16px;
+      background: linear-gradient(to bottom, #333 60%, #000 100%);
+      border-radius: 2px;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+    .flame {
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 40px;
+      pointer-events: none;
+      z-index: 4;
+      filter: blur(0.5px);
+    }
+    .flame-shape {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #ffec8b 60%, #ffad3f 100%);
+      border-radius: 60% 60% 90% 90% / 100% 100% 90% 90%;
+      opacity: 0.85;
+      animation: flameFlicker 2s infinite;
+      box-shadow: 0 0 18px 6px #ffec8b77, 0 0 30px 12px #ffad3f55;
+    }
+    @keyframes flameFlicker {
+      0% {
+        transform: scaleY(1) scaleX(1) translateY(0);
+        opacity: 0.82;
+      }
+      15% {
+        transform: scaleY(1.08) scaleX(0.95) translateY(-2px) rotate(-1deg);
+        opacity: 0.95;
+      }
+      30% {
+        transform: scaleY(0.95) scaleX(1.07) translateY(2px) rotate(1.5deg);
+        opacity: 0.82;
+      }
+      40% {
+        transform: scaleY(1.03) scaleX(0.98) translateY(-1px) rotate(-1deg);
+        opacity: 0.88;
+      }
+      50% {
+        transform: scaleY(1.18) scaleX(1.1) translateY(-4px) rotate(0.5deg);
+        opacity: 1;
+      }
+      60% {
+        transform: scaleY(1.02) scaleX(0.97) translateY(0);
+        opacity: 0.84;
+      }
+      75% {
+        transform: scaleY(0.9) scaleX(1.02) translateY(3px) rotate(-0.5deg);
+        opacity: 0.76;
+      }
+      100% {
+        transform: scaleY(1) scaleX(1) translateY(0);
+        opacity: 0.82;
+      }
+    }
+    .candle-base {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 60px;
+      height: 18px;
+      background: #af8355;
+      border-radius: 50% 50% 60% 60% / 60% 60% 100% 100%;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 12px 2px #0002;
+      z-index: 1;
+    }
+    .candle-shadow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 70px;
+      height: 24px;
+      background: radial-gradient(ellipse at center, #0006 60%, #0000 100%);
+      border-radius: 50%;
+      transform: translateX(-50%) scaleY(0.6);
+      z-index: 0;
+      filter: blur(1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="candle-holder">
+    <div class="candle"></div>
+    <div class="wick"></div>
+    <div class="flame">
+      <div class="flame-shape" id="flame"></div>
+    </div>
+    <div class="candle-base"></div>
+    <div class="candle-shadow"></div>
+  </div>
+  <script>
+    // Menambahkan sedikit variasi pada animasi api lilin
+    const flame = document.getElementById('flame');
+
+
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function animateFlame() {
+      const time = Date.now() / 250;
+      const scaleX = 1 + Math.sin(time * randomBetween(0.8, 1.2)) * 0.05 + randomBetween(-0.03, 0.03);
+      const scaleY = 1.05 + Math.cos(time * randomBetween(1.1, 1.6)) * 0.08 + randomBetween(-0.03, 0.03);
+      const rotate = Math.sin(time * 0.9) * 5 + randomBetween(-2, 2);
+
+      flame.style.transform = `scaleX(${scaleX}) scaleY(${scaleY}) rotate(${rotate}deg)`;
+      requestAnimationFrame(animateFlame);
+    }
+
+    animateFlame();
+  </script>
+</body>
+</html>
